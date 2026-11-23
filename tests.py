@@ -1,10 +1,4 @@
 import pytest
-from main import BooksCollector
-
-
-@pytest.fixture
-def collector():
-    return BooksCollector()
 
 
 # ─────────────────────────────────────────────
@@ -125,3 +119,36 @@ def test_delete_book_from_favorites(collector, delete_name, expected):
     collector.add_book_in_favorites('Дюна')
     collector.delete_book_from_favorites(delete_name)
     assert collector.get_list_of_favorites_books() == expected
+
+
+# ─────────────────────────────────────────────
+# get_book_genre
+# ─────────────────────────────────────────────
+
+def test_get_book_genre_returns_genre(collector):
+    """get_book_genre возвращает жанр книги по её имени."""
+    collector.add_new_book('Оно')
+    collector.set_book_genre('Оно', 'Ужасы')
+    assert collector.get_book_genre('Оно') == 'Ужасы'
+
+
+# ─────────────────────────────────────────────
+# get_books_genre
+# ─────────────────────────────────────────────
+
+def test_get_books_genre_returns_books_dict(collector):
+    """get_books_genre возвращает текущий словарь books_genre."""
+    collector.add_new_book('Дюна')
+    collector.set_book_genre('Дюна', 'Фантастика')
+    assert collector.get_books_genre() == {'Дюна': 'Фантастика'}
+
+
+# ─────────────────────────────────────────────
+# get_list_of_favorites_books
+# ─────────────────────────────────────────────
+
+def test_get_list_of_favorites_books_returns_favorites(collector):
+    """get_list_of_favorites_books возвращает список избранных книг."""
+    collector.add_new_book('Дюна')
+    collector.add_book_in_favorites('Дюна')
+    assert collector.get_list_of_favorites_books() == ['Дюна']
